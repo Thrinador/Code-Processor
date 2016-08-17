@@ -79,7 +79,25 @@ public class Code_processor extends JFrame {
             }
 
             private void openButtonActionPerformed(ActionEvent evt) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                JFileChooser chooser = new JFileChooser();
+                FileNameExtensionFilter filter = new FileNameExtensionFilter("Java", "java");
+                chooser.setFileFilter(filter);
+                int returnVal = chooser.showOpenDialog(null);
+                if (returnVal == JFileChooser.APPROVE_OPTION) {
+                try {
+                    FileReader fileReader = new FileReader(chooser.getSelectedFile());
+                    BufferedReader bufferedReader = new BufferedReader(fileReader);
+                    StringBuilder text = new StringBuilder();
+                    String line = "";
+                    while ((line = bufferedReader.readLine()) != null) {
+                        text.append(line);
+                    }
+                    editTextArea.setText(text.toString());
+                } catch (FileNotFoundException ex) {
+
+                } catch (IOException ex) {
+
+                }
             }
         });
         
@@ -92,7 +110,16 @@ public class Code_processor extends JFrame {
             }
 
             private void saveButtonActionPerformed(ActionEvent evt) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                try {
+                    FileWriter save = new FileWriter(FILE_PATH + name, true);
+                    PrintWriter write = null;
+                    write = new PrintWriter(save);
+                    write.write(x.getText());
+                } catch (FileNotFoundException ex) {
+                    //Error Message
+                } catch (IOException ex) {
+                    //Error Message
+                }
             }
         });
         
