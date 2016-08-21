@@ -1,15 +1,18 @@
 package code_processor;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
+import static java.awt.Font.PLAIN;
+import java.awt.GridLayout;
 import java.io.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
@@ -34,9 +37,8 @@ public class Code_processor extends JFrame {
         initComponents();
         this.setSize(600, 600);
         this.setLocationRelativeTo(null);
-        buttonPanel.setBackground(Color.red);
         PROJECT_NAME = "/test.java";
-        this.add(buttonPanel);
+        this.add(buttonPanel, BorderLayout.NORTH);
         this.add(textAreaPanel);
 
     }
@@ -56,11 +58,11 @@ public class Code_processor extends JFrame {
         setTitle("CODE PROCESSOR");
         setResizable(false);
 
-        newButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        newButton.setForeground(new java.awt.Color(51, 51, 255));
+        newButton.setFont(new Font("Tahoma", 1, 18)); // NOI18N
+        newButton.setForeground(new Color(51, 51, 255));
         newButton.setText("New");
-        newButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        newButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 newButtonActionPerformed(evt);
             }
 
@@ -69,11 +71,11 @@ public class Code_processor extends JFrame {
             }
         });
 
-        openButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        openButton.setForeground(new java.awt.Color(51, 51, 255));
+        openButton.setFont(new Font("Tahoma", 1, 18)); // NOI18N
+        openButton.setForeground(new Color(51, 51, 255));
         openButton.setText("Open");
-        openButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        openButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
                 openButtonActionPerformed(evt);
             }
 
@@ -101,12 +103,12 @@ public class Code_processor extends JFrame {
             }
         });
 
-        saveButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        saveButton.setForeground(new java.awt.Color(51, 51, 255));
+        saveButton.setFont(new Font("Tahoma", 1, 18)); // NOI18N
+        saveButton.setForeground(new Color(51, 51, 255));
         saveButton.setText("Save");
-        saveButton.addActionListener(new java.awt.event.ActionListener() {
+        saveButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(ActionEvent evt) {
                 saveButtonActionPerformed(evt);
             }
 
@@ -125,12 +127,12 @@ public class Code_processor extends JFrame {
             }
         });
 
-        runButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        runButton.setForeground(new java.awt.Color(51, 51, 255));
+        runButton.setFont(new Font("Tahoma", 1, 18)); // NOI18N
+        runButton.setForeground(new Color(51, 51, 255));
         runButton.setText("Run");
-        runButton.addActionListener(new java.awt.event.ActionListener() {
+        runButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(ActionEvent evt) {
                 runButtonActionPerformed(evt);
             }
 
@@ -138,12 +140,12 @@ public class Code_processor extends JFrame {
                 throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
         });
-        stopButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        stopButton.setForeground(new java.awt.Color(51, 51, 255));
+        stopButton.setFont(new Font("Tahoma", 1, 18)); // NOI18N
+        stopButton.setForeground(new Color(51, 51, 255));
         stopButton.setText("Stop");
-        stopButton.addActionListener(new java.awt.event.ActionListener() {
+        stopButton.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+            public void actionPerformed(ActionEvent evt) {
                 stopButtonActionPerformed(evt);
             }
 
@@ -152,11 +154,12 @@ public class Code_processor extends JFrame {
             }
         });
         
-        this.setLayout(new java.awt.GridLayout(2, 1));
+        this.setLayout(new BorderLayout());
 
-        buttonPanel.setLayout(new java.awt.GridLayout(1, 5));
 
-        buttonPanel.setLayout(new java.awt.GridLayout(1, 5));
+        buttonPanel.setLayout(new GridLayout(1, 5));
+
+        buttonPanel.setLayout(new GridLayout(1, 5));
         buttonPanel.add(newButton);
         buttonPanel.add(openButton);
         buttonPanel.add(saveButton);
@@ -164,14 +167,16 @@ public class Code_processor extends JFrame {
         buttonPanel.add(stopButton);
 
         editTextArea.setEditable(true);
-        editTextArea.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+ 
+        editTextArea.setFont(new Font("Courier", PLAIN, 14)); // NOI18N
         editTextArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         outputTextArea.setEditable(false);
-        outputTextArea.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        outputTextArea.setFont(new Font("Courier", PLAIN, 14)); // NOI18N
         outputTextArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         
-        textAreaPanel.setLayout(new java.awt.GridLayout(1, 2));
+        textAreaPanel.setLayout(new GridLayout(1, 2));
+
         textAreaPanel.add(editTextArea);
         textAreaPanel.add(outputTextArea);
     }
