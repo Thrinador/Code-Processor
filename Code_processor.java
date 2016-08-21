@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Font;
 import static java.awt.Font.PLAIN;
 import java.awt.GridLayout;
-import java.io.*;
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
@@ -14,6 +13,15 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -25,14 +33,15 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class Code_processor extends JFrame {
 
     private JPanel buttonPanel;
-    private javax.swing.JPanel textAreaPanel;
-    private javax.swing.JButton newButton;
-    private javax.swing.JButton openButton;
-    private javax.swing.JButton saveButton;
-    private javax.swing.JButton runButton;
-    private javax.swing.JButton stopButton;
-    private javax.swing.JTextArea editTextArea;
-    private javax.swing.JTextArea outputTextArea;
+    private JPanel textAreaPanel;
+    private JButton newButton;
+    private JButton openButton;
+    private JButton saveButton;
+    private JButton runButton;
+    private JButton stopButton;
+    private JTextArea editTextArea;
+    private JTextAreaNumbers editNumbers;
+    private JTextArea outputTextArea;
     private final String PROJECT_NAME;
 
     public Code_processor() {
@@ -42,7 +51,7 @@ public class Code_processor extends JFrame {
         PROJECT_NAME = "/test.java";
         this.add(buttonPanel, BorderLayout.NORTH);
         this.add(textAreaPanel);
-
+        this.add(editNumbers, BorderLayout.WEST);
     }
 
     private void initComponents() {
@@ -54,16 +63,18 @@ public class Code_processor extends JFrame {
         runButton = new JButton();
         stopButton = new JButton();
         editTextArea = new JTextArea();
+        editNumbers = new JTextAreaNumbers(editTextArea);
         outputTextArea = new JTextArea();
-
+        
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("CODE PROCESSOR");
-        setResizable(false);
+        setResizable(true);
 
         newButton.setFont(new Font("Tahoma", 1, 18)); // NOI18N
         newButton.setForeground(new Color(51, 51, 255));
         newButton.setText("New");
         newButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent evt) {
                 newButtonActionPerformed(evt);
             }
@@ -96,9 +107,10 @@ public class Code_processor extends JFrame {
                         StringBuilder text = new StringBuilder();
                         String line = "";
                         while ((line = bufferedReader.readLine()) != null) {
-                            text.append(line).append("\n");
+                            text.append(line).append(System.lineSeparator());
                         }
                         editTextArea.setText(text.toString());
+                        editNumbers.updateLineNumbers();
                     } catch (FileNotFoundException ex) {
 
                     } catch (IOException ex) {
@@ -159,9 +171,8 @@ public class Code_processor extends JFrame {
                 throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
         });
-        
-        this.setLayout(new BorderLayout());
 
+        this.setLayout(new BorderLayout());
 
         buttonPanel.setLayout(new GridLayout(1, 5));
 
@@ -173,14 +184,33 @@ public class Code_processor extends JFrame {
         buttonPanel.add(stopButton);
 
         editTextArea.setEditable(true);
- 
+
         editTextArea.setFont(new Font("Courier", PLAIN, 14)); // NOI18N
         editTextArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        editTextArea.addKeyListener(new KeyListener() {
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+                editNumbers.updateLineNumbers();
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+            
+            
+        });
 
         outputTextArea.setEditable(false);
         outputTextArea.setFont(new Font("Courier", PLAIN, 14)); // NOI18N
         outputTextArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        
+
         textAreaPanel.setLayout(new GridLayout(1, 2));
 
         textAreaPanel.add(editTextArea);
@@ -195,5 +225,4 @@ public class Code_processor extends JFrame {
             new Code_processor().setVisible(true);
         });
     }
-
 }
