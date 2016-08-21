@@ -73,8 +73,8 @@ public class Code_processor extends JFrame {
             }
         });
 
-        openButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        openButton.setForeground(new java.awt.Color(51, 51, 255));
+        openButton.setFont(new Font("Tahoma", 1, 18)); // NOI18N
+        openButton.setForeground(new Color(51, 51, 255));
         openButton.setText("Open");
         openButton.addActionListener(new ActionListener() {
             @Override
@@ -108,8 +108,8 @@ public class Code_processor extends JFrame {
             }
         });
 
-        saveButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        saveButton.setForeground(new java.awt.Color(51, 51, 255));
+        saveButton.setFont(new Font("Tahoma", 1, 18)); // NOI18N
+        saveButton.setForeground(new Color(51, 51, 255));
         saveButton.setText("Save");
         saveButton.addActionListener(new ActionListener() {
             @Override
