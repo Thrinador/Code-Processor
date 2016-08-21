@@ -10,6 +10,8 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * @author Polina
@@ -32,13 +34,10 @@ public class Code_processor extends JFrame {
         this.setSize(600, 600);
         this.setLocationRelativeTo(null);
         buttonPanel.setBackground(Color.red);
-        
 
-        
         this.add(buttonPanel);
         //this.add(textAreaPanel);
-        
-       
+
     }
 
     private void initComponents() {
@@ -51,11 +50,11 @@ public class Code_processor extends JFrame {
         stopButton = new JButton();
         editTextArea = new JTextArea();
         outputTextArea = new JTextArea();
-        
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("CODE PROCESSOR");
         setResizable(false);
-        
+
         newButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         newButton.setForeground(new java.awt.Color(51, 51, 255));
         newButton.setText("New");
@@ -68,8 +67,7 @@ public class Code_processor extends JFrame {
                 throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
         });
-        
-        
+
         openButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         openButton.setForeground(new java.awt.Color(51, 51, 255));
         openButton.setText("Open");
@@ -84,23 +82,24 @@ public class Code_processor extends JFrame {
                 chooser.setFileFilter(filter);
                 int returnVal = chooser.showOpenDialog(null);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
-                try {
-                    FileReader fileReader = new FileReader(chooser.getSelectedFile());
-                    BufferedReader bufferedReader = new BufferedReader(fileReader);
-                    StringBuilder text = new StringBuilder();
-                    String line = "";
-                    while ((line = bufferedReader.readLine()) != null) {
-                        text.append(line);
+                    try {
+                        FileReader fileReader = new FileReader(chooser.getSelectedFile());
+                        BufferedReader bufferedReader = new BufferedReader(fileReader);
+                        StringBuilder text = new StringBuilder();
+                        String line = "";
+                        while ((line = bufferedReader.readLine()) != null) {
+                            text.append(line);
+                        }
+                        editTextArea.setText(text.toString());
+                    } catch (FileNotFoundException ex) {
+
+                    } catch (IOException ex) {
+
                     }
-                    editTextArea.setText(text.toString());
-                } catch (FileNotFoundException ex) {
-
-                } catch (IOException ex) {
-
                 }
             }
         });
-        
+
         saveButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         saveButton.setForeground(new java.awt.Color(51, 51, 255));
         saveButton.setText("Save");
@@ -110,23 +109,24 @@ public class Code_processor extends JFrame {
             }
 
             private void saveButtonActionPerformed(ActionEvent evt) {
-                try {
-                    FileWriter save = new FileWriter(FILE_PATH + name, true);
-                    PrintWriter write = null;
-                    write = new PrintWriter(save);
-                    write.write(x.getText());
-                } catch (FileNotFoundException ex) {
-                    //Error Message
-                } catch (IOException ex) {
-                    //Error Message
-                }
+//                try {
+//                    //FileWriter save = new FileWriter(System.getProperty(null) + name, true);
+//                    PrintWriter write = null;
+//                    //write = new PrintWriter(save);
+//                    //write.write(x.getText());
+//                } catch (FileNotFoundException ex) {
+//                    //Error Message
+//                } catch (IOException ex) {
+//                    //Error Message
+//                }
             }
         });
-        
+
         runButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         runButton.setForeground(new java.awt.Color(51, 51, 255));
         runButton.setText("Run");
         runButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 runButtonActionPerformed(evt);
             }
@@ -139,6 +139,7 @@ public class Code_processor extends JFrame {
         stopButton.setForeground(new java.awt.Color(51, 51, 255));
         stopButton.setText("Stop");
         stopButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 stopButtonActionPerformed(evt);
             }
@@ -154,13 +155,13 @@ public class Code_processor extends JFrame {
         buttonPanel.add(saveButton);
         buttonPanel.add(runButton);
         buttonPanel.add(stopButton);
-        
+
         editTextArea.setEditable(false);
         editTextArea.setColumns(20);
         editTextArea.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         editTextArea.setRows(5);
         editTextArea.setBorder(null);
-        
+
         outputTextArea.setEditable(false);
         outputTextArea.setColumns(20);
         outputTextArea.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -173,7 +174,7 @@ public class Code_processor extends JFrame {
      */
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(() -> {
-                new Code_processor().setVisible(true);
+            new Code_processor().setVisible(true);
         });
     }
 
