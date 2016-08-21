@@ -28,13 +28,14 @@ public class Code_processor extends JFrame {
     private javax.swing.JButton stopButton;
     private javax.swing.JTextArea editTextArea;
     private javax.swing.JTextArea outputTextArea;
+    private final String PROJECT_NAME;
 
     public Code_processor() {
         initComponents();
         this.setSize(600, 600);
         this.setLocationRelativeTo(null);
         buttonPanel.setBackground(Color.red);
-
+        PROJECT_NAME = "/test.java";
         this.add(buttonPanel);
         //this.add(textAreaPanel);
 
@@ -104,21 +105,23 @@ public class Code_processor extends JFrame {
         saveButton.setForeground(new java.awt.Color(51, 51, 255));
         saveButton.setText("Save");
         saveButton.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 saveButtonActionPerformed(evt);
             }
 
             private void saveButtonActionPerformed(ActionEvent evt) {
-//                try {
-//                    //FileWriter save = new FileWriter(System.getProperty(null) + name, true);
-//                    PrintWriter write = null;
-//                    //write = new PrintWriter(save);
-//                    //write.write(x.getText());
-//                } catch (FileNotFoundException ex) {
-//                    //Error Message
-//                } catch (IOException ex) {
-//                    //Error Message
-//                }
+                try {
+                    FileWriter save = new FileWriter("/" + System.getProperty("user.dir") + PROJECT_NAME, true);
+                    PrintWriter write = new PrintWriter(save);
+                    write.write(editTextArea.getText());
+                    write.flush();
+                    write.close();
+                } catch (FileNotFoundException ex) {
+                    //Error Message
+                } catch (IOException ex) {
+                    //Error Message
+                }
             }
         });
 
