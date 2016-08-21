@@ -37,7 +37,7 @@ public class Code_processor extends JFrame {
         buttonPanel.setBackground(Color.red);
         PROJECT_NAME = "/test.java";
         this.add(buttonPanel);
-        //this.add(textAreaPanel);
+        this.add(textAreaPanel);
 
     }
 
@@ -151,6 +151,10 @@ public class Code_processor extends JFrame {
                 throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
         });
+        
+        this.setLayout(new java.awt.GridLayout(2, 1));
+
+        buttonPanel.setLayout(new java.awt.GridLayout(1, 5));
 
         buttonPanel.setLayout(new java.awt.GridLayout(1, 5));
         buttonPanel.add(newButton);
@@ -159,17 +163,17 @@ public class Code_processor extends JFrame {
         buttonPanel.add(runButton);
         buttonPanel.add(stopButton);
 
-        editTextArea.setEditable(false);
-        editTextArea.setColumns(20);
+        editTextArea.setEditable(true);
         editTextArea.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        editTextArea.setRows(5);
-        editTextArea.setBorder(null);
+        editTextArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         outputTextArea.setEditable(false);
-        outputTextArea.setColumns(20);
         outputTextArea.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        outputTextArea.setRows(5);
-        outputTextArea.setBorder(null);
+        outputTextArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        
+        textAreaPanel.setLayout(new java.awt.GridLayout(1, 2));
+        textAreaPanel.add(editTextArea);
+        textAreaPanel.add(outputTextArea);
     }
 
     /**
