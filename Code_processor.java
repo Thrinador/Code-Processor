@@ -10,6 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
@@ -71,10 +73,11 @@ public class Code_processor extends JFrame {
             }
         });
 
-        openButton.setFont(new Font("Tahoma", 1, 18)); // NOI18N
-        openButton.setForeground(new Color(51, 51, 255));
+        openButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        openButton.setForeground(new java.awt.Color(51, 51, 255));
         openButton.setText("Open");
         openButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent evt) {
                 openButtonActionPerformed(evt);
             }
@@ -83,6 +86,8 @@ public class Code_processor extends JFrame {
                 JFileChooser chooser = new JFileChooser();
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("Java", "java");
                 chooser.setFileFilter(filter);
+                File dir = new File(System.getProperty("user.dir") + PROJECT_NAME);
+                chooser.setCurrentDirectory(dir);
                 int returnVal = chooser.showOpenDialog(null);
                 if (returnVal == JFileChooser.APPROVE_OPTION) {
                     try {
@@ -91,7 +96,7 @@ public class Code_processor extends JFrame {
                         StringBuilder text = new StringBuilder();
                         String line = "";
                         while ((line = bufferedReader.readLine()) != null) {
-                            text.append(line);
+                            text.append(line).append("\n");
                         }
                         editTextArea.setText(text.toString());
                     } catch (FileNotFoundException ex) {
@@ -103,8 +108,8 @@ public class Code_processor extends JFrame {
             }
         });
 
-        saveButton.setFont(new Font("Tahoma", 1, 18)); // NOI18N
-        saveButton.setForeground(new Color(51, 51, 255));
+        saveButton.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        saveButton.setForeground(new java.awt.Color(51, 51, 255));
         saveButton.setText("Save");
         saveButton.addActionListener(new ActionListener() {
             @Override
@@ -114,11 +119,12 @@ public class Code_processor extends JFrame {
 
             private void saveButtonActionPerformed(ActionEvent evt) {
                 try {
-                    FileWriter save = new FileWriter("/" + System.getProperty("user.dir") + PROJECT_NAME, true);
-                    PrintWriter write = new PrintWriter(save);
-                    write.write(editTextArea.getText());
-                    write.flush();
-                    write.close();
+                    Files.deleteIfExists(Paths.get(System.getProperty("user.dir"), PROJECT_NAME));
+                    FileWriter save = new FileWriter(System.getProperty("user.dir") + PROJECT_NAME, true);
+                    try (PrintWriter write = new PrintWriter(save)) {
+                        editTextArea.write(write);
+                        write.flush();
+                    }
                 } catch (FileNotFoundException ex) {
                     //Error Message
                 } catch (IOException ex) {
