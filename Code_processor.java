@@ -2,6 +2,7 @@ package code_processor;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import static java.awt.Font.PLAIN;
 import java.awt.GridLayout;
@@ -24,6 +25,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
+import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -34,6 +36,7 @@ public class Code_processor extends JFrame {
 
     private JPanel buttonPanel;
     private JPanel textAreaPanel;
+    private JPanel editPanel;
     private JButton newButton;
     private JButton openButton;
     private JButton saveButton;
@@ -43,15 +46,17 @@ public class Code_processor extends JFrame {
     private JTextAreaNumbers editNumbers;
     private JTextArea outputTextArea;
     private final String PROJECT_NAME;
+    private JScrollPane pane;
 
     public Code_processor() {
         initComponents();
         this.setSize(600, 600);
         this.setLocationRelativeTo(null);
         PROJECT_NAME = "/test.java";
+        
         this.add(buttonPanel, BorderLayout.NORTH);
         this.add(textAreaPanel);
-        this.add(editNumbers, BorderLayout.WEST);
+        //this.add(editNumbers, BorderLayout.WEST);
     }
 
     private void initComponents() {
@@ -65,6 +70,8 @@ public class Code_processor extends JFrame {
         editTextArea = new JTextArea();
         editNumbers = new JTextAreaNumbers(editTextArea);
         outputTextArea = new JTextArea();
+        editPanel = new JPanel();
+        pane = new JScrollPane(editPanel);
         
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("CODE PROCESSOR");
@@ -212,8 +219,12 @@ public class Code_processor extends JFrame {
         outputTextArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         textAreaPanel.setLayout(new GridLayout(1, 2));
+        editPanel.setLayout(new BorderLayout());
+        editPanel.add(editNumbers, BorderLayout.WEST);
+        editPanel.add(editTextArea);
+        pane.getVerticalScrollBar().setUnitIncrement(16);
 
-        textAreaPanel.add(editTextArea);
+        textAreaPanel.add(pane);
         textAreaPanel.add(outputTextArea);
     }
 
