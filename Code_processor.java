@@ -2,7 +2,6 @@ package code_processor;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import static java.awt.Font.PLAIN;
 import java.awt.GridLayout;
@@ -35,50 +34,80 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class Code_processor extends JFrame {
 
-    private JPanel buttonPanel;
-    private JPanel editPanel;
-    private JButton newButton;
-    private JButton openButton;
-    private JButton saveButton;
-    private JButton runButton;
-    private JButton stopButton;
-    private JTextArea editTextArea;
+    private JPanel buttonPanel, editPanel;
+    private JButton newButton, openButton, saveButton, runButton, stopButton;
+    private JTextArea editTextArea, outputTextArea;
     private JTextAreaNumbers editNumbers;
-    private JTextArea outputTextArea;
-    private final String PROJECT_NAME;
     private JScrollPane pane;
     private JSplitPane splitPane;
+    private final String PROJECT_NAME;
 
     public Code_processor() {
         initComponents();
+        this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        this.setTitle("CODE PROCESSOR");
+        this.setResizable(true);
         this.setSize(1000, 900);
         this.setLocationRelativeTo(null);
-        PROJECT_NAME = "/test.java";
-        BorderLayout border = new BorderLayout(5, 5);
-
-        this.setLayout(border);
         this.add(buttonPanel, BorderLayout.NORTH);
-
         this.add(splitPane);
-        //this.add(editNumbers, BorderLayout.WEST);
+        PROJECT_NAME = "/test.java";
     }
 
     private void initComponents() {
+        editTextArea = new JTextArea();
+        editNumbers = new JTextAreaNumbers(editTextArea);
+        outputTextArea = new JTextArea();
+        editPanel = new JPanel();
+        pane = new JScrollPane(editPanel);
+        initButtons();
+
+        editTextArea.setEditable(true);
+        editTextArea.setFont(new Font("Courier", PLAIN, 14)); // NOI18N
+        editTextArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        editTextArea.addKeyListener(new KeyListener() {
+
+            @Override
+            public void keyTyped(KeyEvent e) {
+                editNumbers.updateLineNumbers();
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+
+            }
+
+        });
+
+        outputTextArea.setEditable(false);
+        outputTextArea.setFont(new Font("Courier", PLAIN, 14)); // NOI18N
+        outputTextArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        editPanel.setLayout(new BorderLayout());
+        editPanel.add(editNumbers, BorderLayout.WEST);
+        editPanel.add(editTextArea);
+
+        pane.getVerticalScrollBar().setUnitIncrement(16);
+
+        splitPane = new JSplitPane(
+                JSplitPane.HORIZONTAL_SPLIT,
+                pane,
+                outputTextArea);
+        splitPane.setResizeWeight(.5);
+    }
+
+    private void initButtons() {
         buttonPanel = new JPanel();
         newButton = new JButton();
         openButton = new JButton();
         saveButton = new JButton();
         runButton = new JButton();
         stopButton = new JButton();
-        editTextArea = new JTextArea();
-        editNumbers = new JTextAreaNumbers(editTextArea);
-        outputTextArea = new JTextArea();
-        editPanel = new JPanel();
-        pane = new JScrollPane(editPanel);
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("CODE PROCESSOR");
-        setResizable(true);
 
         newButton.setFont(new Font("Tahoma", 1, 18)); // NOI18N
         newButton.setForeground(new Color(51, 51, 255));
@@ -182,52 +211,12 @@ public class Code_processor extends JFrame {
             }
         });
 
-        this.setLayout(new BorderLayout());
-
         buttonPanel.setLayout(new GridLayout(1, 5));
         buttonPanel.add(newButton);
         buttonPanel.add(openButton);
         buttonPanel.add(saveButton);
         buttonPanel.add(runButton);
         buttonPanel.add(stopButton);
-
-        editTextArea.setEditable(true);
-
-        editTextArea.setFont(new Font("Courier", PLAIN, 14)); // NOI18N
-        editTextArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        editTextArea.addKeyListener(new KeyListener() {
-
-            @Override
-            public void keyTyped(KeyEvent e) {
-                editNumbers.updateLineNumbers();
-            }
-
-            @Override
-            public void keyPressed(KeyEvent e) {
-
-            }
-
-            @Override
-            public void keyReleased(KeyEvent e) {
-
-            }
-
-        });
-
-        outputTextArea.setEditable(false);
-        outputTextArea.setFont(new Font("Courier", PLAIN, 14)); // NOI18N
-        outputTextArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
-        editPanel.setLayout(new BorderLayout());
-        editPanel.add(editNumbers, BorderLayout.WEST);
-        editPanel.add(editTextArea);
-        pane.getVerticalScrollBar().setUnitIncrement(16);
-        splitPane = new JSplitPane(
-                JSplitPane.HORIZONTAL_SPLIT,
-                pane,
-                outputTextArea);
-        //splitPane.setOneTouchExpandable(true);
-        splitPane.setResizeWeight(.5);
     }
 
     /**
