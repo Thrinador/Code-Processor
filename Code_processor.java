@@ -26,6 +26,7 @@ import java.io.PrintWriter;
 import javax.swing.BorderFactory;
 import javax.swing.JFileChooser;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -35,7 +36,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class Code_processor extends JFrame {
 
     private JPanel buttonPanel;
-    private JPanel textAreaPanel;
     private JPanel editPanel;
     private JButton newButton;
     private JButton openButton;
@@ -47,21 +47,24 @@ public class Code_processor extends JFrame {
     private JTextArea outputTextArea;
     private final String PROJECT_NAME;
     private JScrollPane pane;
+    private JSplitPane splitPane;
 
     public Code_processor() {
         initComponents();
-        this.setSize(600, 600);
+        this.setSize(1000, 900);
         this.setLocationRelativeTo(null);
         PROJECT_NAME = "/test.java";
-        
+        BorderLayout border = new BorderLayout(5, 5);
+
+        this.setLayout(border);
         this.add(buttonPanel, BorderLayout.NORTH);
-        this.add(textAreaPanel);
+
+        this.add(splitPane);
         //this.add(editNumbers, BorderLayout.WEST);
     }
 
     private void initComponents() {
         buttonPanel = new JPanel();
-        textAreaPanel = new JPanel();
         newButton = new JButton();
         openButton = new JButton();
         saveButton = new JButton();
@@ -72,7 +75,7 @@ public class Code_processor extends JFrame {
         outputTextArea = new JTextArea();
         editPanel = new JPanel();
         pane = new JScrollPane(editPanel);
-        
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("CODE PROCESSOR");
         setResizable(true);
@@ -182,8 +185,6 @@ public class Code_processor extends JFrame {
         this.setLayout(new BorderLayout());
 
         buttonPanel.setLayout(new GridLayout(1, 5));
-
-        buttonPanel.setLayout(new GridLayout(1, 5));
         buttonPanel.add(newButton);
         buttonPanel.add(openButton);
         buttonPanel.add(saveButton);
@@ -210,22 +211,23 @@ public class Code_processor extends JFrame {
             public void keyReleased(KeyEvent e) {
 
             }
-            
-            
+
         });
 
         outputTextArea.setEditable(false);
         outputTextArea.setFont(new Font("Courier", PLAIN, 14)); // NOI18N
         outputTextArea.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
-        textAreaPanel.setLayout(new GridLayout(1, 2));
         editPanel.setLayout(new BorderLayout());
         editPanel.add(editNumbers, BorderLayout.WEST);
         editPanel.add(editTextArea);
         pane.getVerticalScrollBar().setUnitIncrement(16);
-
-        textAreaPanel.add(pane);
-        textAreaPanel.add(outputTextArea);
+        splitPane = new JSplitPane(
+                JSplitPane.HORIZONTAL_SPLIT,
+                pane,
+                outputTextArea);
+        //splitPane.setOneTouchExpandable(true);
+        splitPane.setResizeWeight(.5);
     }
 
     /**
