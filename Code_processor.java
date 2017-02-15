@@ -5,10 +5,6 @@ import java.awt.Color;
 import java.awt.Font;
 import static java.awt.Font.PLAIN;
 import java.awt.GridLayout;
-import javax.swing.JFrame;
-import javax.swing.JTextArea;
-import javax.swing.JButton;
-import javax.swing.JPanel;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.awt.event.ActionEvent;
@@ -22,10 +18,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.swing.BorderFactory;
-import javax.swing.JFileChooser;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
+import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -36,7 +29,7 @@ public class Code_processor extends JFrame {
 
     private JPanel buttonPanel, editPanel;
     private JButton newButton, openButton, saveButton, runButton, stopButton;
-    private JTextArea editTextArea, outputTextArea;
+    private JTextPane editTextArea, outputTextArea;
     private JTextAreaNumbers editNumbers;
     private JScrollPane pane;
     private JSplitPane splitPane;
@@ -55,9 +48,9 @@ public class Code_processor extends JFrame {
     }
 
     private void initComponents() {
-        editTextArea = new JTextArea();
+        editTextArea = new JTextPane();
         editNumbers = new JTextAreaNumbers(editTextArea);
-        outputTextArea = new JTextArea();
+        outputTextArea = new JTextPane();
         editPanel = new JPanel();
         pane = new JScrollPane(editPanel);
         initButtons();
@@ -70,6 +63,10 @@ public class Code_processor extends JFrame {
             @Override
             public void keyTyped(KeyEvent e) {
                 editNumbers.updateLineNumbers();
+                
+                if(e.getKeyChar() == ' '){
+                    editNumbers.checkForNewWord();
+                }
             }
 
             @Override
@@ -119,7 +116,7 @@ public class Code_processor extends JFrame {
             }
 
             private void newButtonActionPerformed(ActionEvent evt) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+                throw new UnsupportedOperationException("Not supported yet.");
             }
         });
 
@@ -134,8 +131,7 @@ public class Code_processor extends JFrame {
 
             private void openButtonActionPerformed(ActionEvent evt) {
                 JFileChooser chooser = new JFileChooser();
-                FileNameExtensionFilter filter = new FileNameExtensionFilter("Java", "java");
-                chooser.setFileFilter(filter);
+                chooser.setFileFilter(new FileNameExtensionFilter("Java", "java"));
                 File dir = new File(System.getProperty("user.dir") + PROJECT_NAME);
                 chooser.setCurrentDirectory(dir);
                 int returnVal = chooser.showOpenDialog(null);
